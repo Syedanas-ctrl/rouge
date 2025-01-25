@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RequestAttributes, RequestTypes } from "../enums";
-import { Textarea } from "@/components/ui/textarea";
 import { KeyValueEditor, ResponseViewer } from ".";
+import { CodeEditor } from "./code-editor";
 
 export type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -23,10 +23,28 @@ export function RequestInterface() {
   const handleSend = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(url, {
+      const requestOptions: RequestInit = {
         method,
-        headers,
-      });
+        headers: {
+          ...headers,
+          ...(body && { "Content-Type": "application/json" }),
+        },
+      }
+
+      if (method !== "GET" && body) {
+        try {
+          requestOptions.body = JSON.stringify(JSON.parse(body))
+        } catch (e) {
+          setResponse({
+            error: "Invalid body format",
+            details: e instanceof Error ? e.message : "Failed to parse body content",
+          })
+          setIsLoading(false)
+          return
+        }
+      }
+
+      const res = await fetch(url, requestOptions);
       const data = await res.json();
       setResponse({
         status: res.status,
@@ -82,13 +100,7 @@ export function RequestInterface() {
           <KeyValueEditor pairs={params} onChange={setParams} />
         </TabsContent>
         <TabsContent value={RequestAttributes.Body}>
-          <Textarea
-            rows={10}
-            value={body}
-            onChange={(e) => {
-              setBody(e.target.value);
-            }}
-          />
+          <CodeEditor value={body} onChange={setBody} />
         </TabsContent>
       </Tabs>
       <div className="mt-6">
