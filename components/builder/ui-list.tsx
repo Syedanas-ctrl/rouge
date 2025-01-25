@@ -1,29 +1,39 @@
+"use client";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import React from "react";
-import { BlockType } from "./enums";
+import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import blocks from "./blocks";
+import { Input } from "../ui/input";
 
-const UIList = ({ display }: { display: "grid" | "flex" }) => {
+const UIList = ({ display, list, groups }: { display: "grid" | "flex", list: any[], groups: any[] }) => {
+  const [search, setSearch] = useState("");
   const Child = display === "grid" ? GridChild : FlexChild;
+  
+  const filteredList = useMemo(() => {
+    if (!search) return list;
+    return list.filter((block) => block.name.toLowerCase().includes(search.toLowerCase()));
+  }, [search]);
+
   return (
-    <Accordion type="single" collapsible className="w-full">
-      {Object.values(BlockType).map((component) => (
-        <AccordionItem key={component} value={component}>
-          <AccordionTrigger>{component}</AccordionTrigger>
+    <div className="flex flex-col gap-2">
+      <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search block" />
+      <Accordion type="multiple" className="w-full">
+        {groups.map((group) => (
+          <AccordionItem key={group} value={group}>
+          <AccordionTrigger>{group}</AccordionTrigger>
           <AccordionContent
             className={cn(display === "grid" ? "grid grid-cols-3 gap-2 justify-items-stretch" : "flex flex-col gap-2")}>
-            {blocks.filter((block) => block.types.includes(component)).map((block, index) => (
+              {filteredList.filter((block) => block.types.includes(group)).map((block) => (
               <Child key={block.name}>
                 {block.name}
                 {React.createElement(block.icon)}
               </Child>
             ))}
           </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
   );
 };
 

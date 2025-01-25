@@ -15,6 +15,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import Text from "./text";
 import { FilePicker } from "./file-picker";
 import { Avatar } from "@/components/ui/avatar";
@@ -124,6 +125,13 @@ const Blocks: Block[] = [
         icon: TypeIcon,
         description: "Text",
         block: <Text />
+    },
+    {
+        name: "Rich Text",
+        types: [BlockType.Content],
+        icon: FileIcon,
+        description: "Rich text",
+        block: <Textarea />
     },
     {
         name: "File Picker",
