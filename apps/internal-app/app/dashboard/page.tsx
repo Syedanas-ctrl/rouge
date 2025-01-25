@@ -1,6 +1,6 @@
 import { Separator } from "@workspace/ui/components/separator";
 import React from "react";
-import Sidenav from "@/components/builder/sidenav";
+import Sidenav from "@/components/builder/sidebar-nav";
 
 export default function DashboardPage() {
   return (
