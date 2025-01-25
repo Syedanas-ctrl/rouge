@@ -1,20 +1,24 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import React from "react";
-import { ComponentTypes } from "./enums/general";
+import { BlockType } from "./enums";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import blocks from "./blocks";
 
 const UIList = ({ display }: { display: "grid" | "flex" }) => {
   const Child = display === "grid" ? GridChild : FlexChild;
   return (
     <Accordion type="single" collapsible className="w-full">
-      {Object.values(ComponentTypes).map((component) => (
+      {Object.values(BlockType).map((component) => (
         <AccordionItem key={component} value={component}>
           <AccordionTrigger>{component}</AccordionTrigger>
           <AccordionContent
             className={cn(display === "grid" ? "grid grid-cols-3 gap-2 justify-items-stretch" : "flex flex-col gap-2")}>
-            {Object.values(ComponentTypes).map((builderComponent, index) => (
-              <Child key={builderComponent}>List {index + 1}</Child>
+            {blocks.filter((block) => block.types.includes(component)).map((block, index) => (
+              <Child key={block.name}>
+                {block.name}
+                {React.createElement(block.icon)}
+              </Child>
             ))}
           </AccordionContent>
         </AccordionItem>
