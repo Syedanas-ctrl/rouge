@@ -5,14 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { KeyValueEditor } from "./key-value-editor";
-import { ResponseViewer } from "./response-viewer";
-import { RequestAttributes, RequestTypes } from "../enums/api-builder";
+import { RequestAttributes, RequestTypes } from "../enums";
 import { Textarea } from "@/components/ui/textarea";
+import { KeyValueEditor, ResponseViewer } from ".";
 
 export type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-export default function RequestInterface() {
+export function RequestInterface() {
   const [url, setUrl] = useState("https://catfact.ninja/fact");
   const [method, setMethod] = useState<RequestMethod>("GET");
   const [headers, setHeaders] = useState<Record<string, string>>({});
