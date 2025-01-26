@@ -9,7 +9,7 @@ import blocks from "./blocks";
 
 const Sidenav = () => {
   return (
-    <section className="w-fit min-w-[20%] max-w-[40%] overflow-scroll h-full p-4 border-r border-accent">
+    <section className="mr-auto overflow-scroll h-full p-4 border-r border-accent">
       <Tabs defaultValue={BuilderTabs.UI}>
         <TabsList className="grid grid-cols-3 gap-2">
           {Object.values(BuilderTabs).map((tab) => (

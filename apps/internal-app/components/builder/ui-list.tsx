@@ -28,7 +28,7 @@ const UIList = ({ display, list, groups }: { display: "grid" | "flex"; list: Blo
               <AccordionTrigger>{group}</AccordionTrigger>
               <AccordionContent
                 className={cn(
-                  display === "grid" ? "grid grid-cols-3 gap-2 justify-items-stretch" : "flex flex-col gap-2"
+                  display === "grid" ? "grid grid-cols-2 gap-2 justify-items-stretch" : "flex flex-col gap-2"
                 )}>
                 {filteredList
                   .filter((block) => block.types.includes(group))

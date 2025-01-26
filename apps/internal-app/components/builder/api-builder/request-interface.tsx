@@ -100,7 +100,7 @@ export function RequestInterface() {
           <KeyValueEditor pairs={params} onChange={setParams} />
         </TabsContent>
         <TabsContent value={RequestAttributes.Body}>
-          <CodeEditor value={body} onChange={setBody} />
+          <CodeEditor value={body} onChange={setBody} language="json" />
         </TabsContent>
       </Tabs>
       <div className="mt-6">
