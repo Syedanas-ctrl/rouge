@@ -10,3 +10,5 @@ export const FilePicker = React.forwardRef<HTMLInputElement, React.ComponentProp
     </div>
   )
 })
+
+FilePicker.displayName = "FilePicker"

@@ -7,4 +7,6 @@ const Text = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
   )
 })
 
+Text.displayName = "Text";
+
 export default Text

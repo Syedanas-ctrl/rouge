@@ -1,0 +1,20 @@
+{
+  "name": "@workspace/workspace",
+  "version": "0.0.0",
+  "private": true,
+  "license": "PROPRIETARY",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^5",
+    "prisma": "^6"
+  },
+  "exports": {},
+  "dependencies": {
+    "@prisma/client": "^6"
+  }
+}

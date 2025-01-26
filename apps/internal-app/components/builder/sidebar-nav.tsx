@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { BlockType, BuilderTabs } from "./enums";
+import { BlockType, BuilderTabs, DragSource } from "./enums";
 import UIList from "./ui-list";
 import { RequestInterface } from "./api-builder";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
@@ -22,13 +22,13 @@ const Sidenav = () => {
           <Separator />
         </div>
         <TabsContent value={BuilderTabs.UI}>
-          <UIList display="grid" list={blocks} groups={Object.values(BlockType)} />
+          <UIList display="grid" list={blocks} groups={Object.values(BlockType)} dragSource={DragSource.BuilderBlocks} />
         </TabsContent>
         <TabsContent value={BuilderTabs.API}>
           <RequestInterface />
         </TabsContent>
         <TabsContent value={BuilderTabs.JS}>
-          <UIList display="flex" list={[]} groups={[]} />
+          <UIList display="flex" list={[]} groups={[]} dragSource={DragSource.BuilderBlocks} />
         </TabsContent>
       </Tabs>
     </section>

@@ -29,9 +29,6 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { columns as columnsDemo } from "./columns"
 import dataDemo from "./demo-data/tasks.json"
-import { Block } from "../../types/block"
-import { BlockType } from "../../enums"
-import { Table as TableIcon } from "lucide-react"
 
 // TODO: Remove optional props
 interface DataTableProps<TData, TValue> {
