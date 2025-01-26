@@ -6,7 +6,7 @@ import { DragSource, DragDestination } from "../enums";
 export const useDragDrop = () => {
     const canvasBlocks = useCanvasState((state) => state.blocks);
     const updateBlocks = useCanvasState((state) => state.updateBlocks);
-  
+    console.log(canvasBlocks);
     const onDragEnd = (result: DropResult) => {
       const { destination, source, draggableId } = result;
   

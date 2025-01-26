@@ -6,6 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import React, { useMemo, useState } from "react";
 import { DragSource } from "./enums";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Block } from "./types";
 
 const UIList = ({
   display,
@@ -14,7 +15,7 @@ const UIList = ({
   dragSource,
 }: {
   display: "grid" | "flex";
-  list: any[];
+  list: Block[];
   groups: any[];
   dragSource: DragSource;
 }) => {
