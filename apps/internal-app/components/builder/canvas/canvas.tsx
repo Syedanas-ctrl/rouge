@@ -1,41 +1,62 @@
-"use client";
+"use client"
 
-import { Droppable, Draggable } from "react-beautiful-dnd";
-import { useCanvasState } from "../state";
-import { DragDestination } from "../enums";
+import { useState, useRef, useCallback } from "react"
+import { Rnd } from "react-rnd"
+import { useCanvasState } from "../state"
 
 export function Canvas() {
-  const canvasBlocks = useCanvasState((state) => state.blocks);
+  const { blocks, updateBlockPosition, updateBlockSize } = useCanvasState()
+  const [isDragging, setIsDragging] = useState(false)
+  const canvasRef = useRef<HTMLDivElement>(null)
+
+  const checkOverlap = useCallback(
+    (id: string, x: number, y: number, width: number, height: number) => {
+      return blocks.some((block) => {
+        if (block.id === id) return false
+        return x < block.x + block.width && x + width > block.x && y < block.y + block.height && y + height > block.y
+      })
+    },
+    [blocks],
+  )
+
   return (
-    <div className="flex h-screen w-screen">
-      <div
-        className="flex-1 p-4"
-        style={{
-          backgroundImage: "radial-gradient(1.5px 1.5px at 50% 50%, var(--primary) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-        }}>
-        <Droppable droppableId={DragDestination.Canvas}>
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef} className="h-full flex flex-col gap-2">
-              {canvasBlocks.map((comp, index) => (
-                <Draggable key={comp.name} draggableId={comp.name} index={index}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="cursor-move bg-background border border-orange-500 p-2 w-fit"
-                      >
-                      {comp.block}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
+    <div
+      ref={canvasRef}
+      className="relative w-screen h-screen overflow-hidden"
+      style={{
+        backgroundImage: "radial-gradient(1.5px 1.5px at 50% 50%, var(--primary) 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+      }}
+    >
+      {blocks.map((block) => (
+        <Rnd
+          key={block.id}
+          position={{ x: block.x, y: block.y }}
+          size={{ width: block.width, height: block.height }}
+          onDragStart={() => setIsDragging(true)}
+          onDragStop={(e, d) => {
+            setIsDragging(false)
+            if (!checkOverlap(block.id, d.x, d.y, block.width, block.height)) {
+              updateBlockPosition(block.id, d.x, d.y)
+            }
+          }}
+          onResizeStop={(e, direction, ref, delta, position) => {
+            const newWidth = Number.parseFloat(ref.style.width)
+            const newHeight = Number.parseFloat(ref.style.height)
+            if (!checkOverlap(block.id, position.x, position.y, newWidth, newHeight)) {
+              updateBlockSize(block.id, newWidth, newHeight)
+              updateBlockPosition(block.id, position.x, position.y)
+            }
+          }}
+          bounds="parent"
+          minWidth={100}
+          minHeight={50}
+            className={`p-2 bg-background border ${isDragging ? "border-blue-500" : "border-orange-500"} cursor-move overflow-hidden`}
+          >
+            {block.content}
+        </Rnd>
+      ))}
     </div>
-  );
+  )
 }
+
