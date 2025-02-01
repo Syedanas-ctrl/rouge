@@ -3,14 +3,17 @@
 import { Button } from "@workspace/ui/components/button";
 import AceEditor from "react-ace";
 import { Badge } from "@workspace/ui/components/badge";
+import { cn } from "@workspace/ui/lib/utils";
 
 interface CodeEditorProps {
   value: string;
   onChange: (value: string) => void;
   language: "json" | "javascript";
-}
+  actions?: React.ReactNode;
+  className?: string;
+  }
 
-export function CodeEditor({ value, onChange, language }: CodeEditorProps) {
+export function CodeEditor({ value, onChange, language, actions, className }: CodeEditorProps) {
   const formatBody = () => {
     if (value) {
       try {
@@ -23,7 +26,7 @@ export function CodeEditor({ value, onChange, language }: CodeEditorProps) {
   };
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-hidden">
       <div className="flex items-center justify-between gap-2 p-2 border-b bg-muted/40">
         <Badge variant="outline">{language.toUpperCase()}</Badge>
         {language === "json" && (
@@ -31,8 +34,9 @@ export function CodeEditor({ value, onChange, language }: CodeEditorProps) {
             Format
           </Button>
         )}
+        {actions}
       </div>
-      <div className="relative w-fit border border-accent overflow-hidden">
+      <div className={cn("relative w-fit border border-accent overflow-x-hidden overflow-y-scroll", className)}>
         <AceEditor
           placeholder="Enter your code block here..."
           mode={language}

@@ -12,7 +12,7 @@ const UIList = <T extends { name: string; types: string[] }>({
 }: {
   display: "grid" | "flex";
   list: T[];
-  groups: string[];
+  groups?: string[];
   children: (block: T) => React.ReactNode;
 }) => {
   const [search, setSearch] = useState("");
@@ -26,19 +26,26 @@ const UIList = <T extends { name: string; types: string[] }>({
     <div className="flex flex-col gap-2">
       <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search block" />
       <Accordion type="multiple" className="w-full">
-        {groups
-          .filter((group) => filteredList.some((block) => block.types.includes(group)))
-          .map((group) => (
-            <AccordionItem key={group} value={group}>
-              <AccordionTrigger>{group}</AccordionTrigger>
-              <AccordionContent
-                className={cn(
-                  display === "grid" ? "grid grid-cols-2 gap-2 justify-items-stretch" : "flex flex-col gap-2"
-                )}>
-                {filteredList.filter((block) => block.types.includes(group)).map((block) => children(block))}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+        {groups ? (
+          groups
+            .filter((group) => filteredList.some((block) => block.types.includes(group)))
+            .map((group) => (
+              <AccordionItem key={group} value={group}>
+                <AccordionTrigger>{group}</AccordionTrigger>
+                <AccordionContent
+                  className={cn(
+                    display === "grid" ? "grid grid-cols-2 gap-2 justify-items-stretch" : "flex flex-col gap-2"
+                  )}>
+                  {filteredList.filter((block) => block.types.includes(group)).map((block) => children(block))}
+                </AccordionContent>
+              </AccordionItem>
+            ))
+        ) : (
+          <div
+            className={cn(display === "grid" ? "grid grid-cols-2 gap-2 justify-items-stretch" : "flex flex-col gap-2")}>
+            {filteredList.map((block) => children(block))}
+          </div>
+        )}
       </Accordion>
     </div>
   );

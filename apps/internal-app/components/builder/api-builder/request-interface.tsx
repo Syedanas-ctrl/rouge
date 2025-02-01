@@ -24,7 +24,7 @@ export function RequestInterface({ resource }: { resource: Resource }) {
   const [body, setBody] = useState<ResourceRequest["body"]>(resource.request.body);
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full mx-auto">
       <div className="flex gap-2 mb-4">
         <Select value={method} onValueChange={(value: RequestMethod) => setMethod(value)}>
           <SelectTrigger className="w-[100px]">
@@ -50,7 +50,7 @@ export function RequestInterface({ resource }: { resource: Resource }) {
       </div>
 
       <Tabs defaultValue={RequestAttributes.Headers} className="w-full">
-        <TabsList>
+        <TabsList className="grid grid-cols-3 gap-2">
           <TabsTrigger value={RequestAttributes.Headers}>{RequestAttributes.Headers}</TabsTrigger>
           <TabsTrigger value={RequestAttributes.Params}>{RequestAttributes.Params}</TabsTrigger>
           <TabsTrigger value={RequestAttributes.Body}>{RequestAttributes.Body}</TabsTrigger>
