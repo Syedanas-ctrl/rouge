@@ -1,5 +1,9 @@
 import { BuilderElement } from "./general";
 
-export interface Function extends BuilderElement<string> {
+export enum FunctionType {
+    JAVASCRIPT = "javascript",
+}
+
+export interface Function extends BuilderElement<FunctionType> {
     code: string
   }

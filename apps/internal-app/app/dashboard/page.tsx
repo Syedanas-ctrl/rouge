@@ -2,7 +2,7 @@
 
 import { Separator } from "@workspace/ui/components/separator";
 import React from "react";
-import Sidenav from "@/components/builder/sidebar-nav";
+import Sidenav from "@/components/builder/sidebar-nav/sidebar-nav";
 import { Canvas } from "@/components/builder/canvas/canvas";
 import BlockManager from "@/components/builder/block-manager";
 import { ResizablePanelGroup } from "@workspace/ui/components/resizable";

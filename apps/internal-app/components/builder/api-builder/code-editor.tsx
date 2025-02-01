@@ -1,6 +1,5 @@
 "use client";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
 import { Button } from "@workspace/ui/components/button";
 import AceEditor from "react-ace";
 import { Badge } from "@workspace/ui/components/badge";
