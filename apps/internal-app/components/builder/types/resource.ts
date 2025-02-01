@@ -1,10 +1,13 @@
+import { BuilderElement } from "./general";
+
 export type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-export type ResourceType = "API" // TODO: Add QUERY
+export enum ResourceType {
+    API = "API",
+    // TODO: Add QUERY
+}
 
-export interface Resource {
-    type: ResourceType
-    name: string
+export interface Resource extends BuilderElement<ResourceType> {
     description: string
     url: string
     method: RequestMethod

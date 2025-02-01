@@ -1,9 +1,8 @@
 import { LucideIcon } from "lucide-react";
 import { BlockType } from "../enums";
+import { BuilderElement } from "./general";
 
-export interface Block {
-    name: string;
-    types: BlockType[];
+export interface Block extends BuilderElement<BlockType> {
     icon: LucideIcon;
     description: string;
     block: React.ReactNode;

@@ -1,9 +1,5 @@
 import { create } from "zustand"
-
-interface Function {
-  name: string
-  code: string
-}
+import { Function } from "../types";
 
 interface JavascriptState {
   functions: Record<Function["name"], Function>
