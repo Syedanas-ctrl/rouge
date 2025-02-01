@@ -8,8 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/componen
 import { RequestAttributes, RequestTypes } from "../enums";
 import { KeyValueEditor, ResponseViewer } from ".";
 import { CodeEditor } from "./code-editor";
-
-export type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+import { RequestMethod } from "../types";
 
 export function RequestInterface() {
   const [url, setUrl] = useState("https://catfact.ninja/fact");

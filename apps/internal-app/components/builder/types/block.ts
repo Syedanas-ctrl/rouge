@@ -9,3 +9,11 @@ export interface Block {
     block: React.ReactNode;
 }
 
+export interface CanvasBlock {
+    id: string
+    content: React.ReactNode
+    x: number
+    y: number
+    width: number
+    height: number
+  }

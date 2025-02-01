@@ -1,16 +1,9 @@
 import { create } from "zustand"
-interface Block {
-  id: string
-  content: React.ReactNode
-  x: number
-  y: number
-  width: number
-  height: number
-}
+import { CanvasBlock } from "../types/block"
 
 interface CanvasState {
-  blocks: Block[]
-  addBlock: (block: Omit<Block, "id" | "x" | "y">) => void
+  blocks: CanvasBlock[]
+  addBlock: (block: Omit<CanvasBlock, "id" | "x" | "y">) => void
   updateBlockPosition: (id: string, x: number, y: number) => void
   updateBlockSize: (id: string, width: number, height: number) => void
 }
@@ -36,7 +29,7 @@ export const useCanvasState = create<CanvasState>((set, get) => ({
 const CANVAS_PADDING = 20
 const BLOCK_SPACING = 10
 
-function findFreePosition(blocks: Block[], width: number, height: number): { x: number; y: number } {
+function findFreePosition(blocks: CanvasBlock[], width: number, height: number): { x: number; y: number } {
   let x = CANVAS_PADDING
   let y = CANVAS_PADDING
   let maxY = 0
