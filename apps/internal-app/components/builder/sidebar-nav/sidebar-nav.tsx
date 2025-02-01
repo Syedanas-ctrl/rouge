@@ -28,7 +28,6 @@ const Sidenav = () => {
         </TabsContent>
         <TabsContent value={BuilderTabs.API}>
           <ResourceList />
-          <RequestInterface />
         </TabsContent>
         <TabsContent value={BuilderTabs.JS}>
           <FunctionList />

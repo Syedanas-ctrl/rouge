@@ -8,57 +8,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/componen
 import { RequestAttributes, RequestTypes } from "../enums";
 import { KeyValueEditor, ResponseViewer } from ".";
 import { CodeEditor } from "./code-editor";
-import { RequestMethod } from "../types";
+import { RequestMethod, Resource, ResourceRequest } from "../types";
+import { useResourceState } from "../state/resource";
 
-export function RequestInterface() {
-  const [url, setUrl] = useState("https://catfact.ninja/fact");
-  const [method, setMethod] = useState<RequestMethod>("GET");
-  const [headers, setHeaders] = useState<Record<string, string>>({});
-  const [params, setParams] = useState<Record<string, string>>({});
-  const [body, setBody] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<any>(null);
+export function RequestInterface({ resource }: { resource: Resource }) {
+  const triggerResource = useResourceState((state) => state.triggerResource);
+  const response = useResourceState((state) => state.resources[resource.name]?.response);
+  const isLoading = useResourceState((state) => state.resources[resource.name]?.isLoading);
 
-  const handleSend = async () => {
-    setIsLoading(true);
-    try {
-      const requestOptions: RequestInit = {
-        method,
-        headers: {
-          ...headers,
-          ...(body && { "Content-Type": "application/json" }),
-        },
-      }
-
-      if (method !== "GET" && body) {
-        try {
-          requestOptions.body = JSON.stringify(JSON.parse(body))
-        } catch (e) {
-          setResponse({
-            error: "Invalid body format",
-            details: e instanceof Error ? e.message : "Failed to parse body content",
-          })
-          setIsLoading(false)
-          return
-        }
-      }
-
-      const res = await fetch(url, requestOptions);
-      const data = await res.json();
-      setResponse({
-        status: res.status,
-        headers: Object.fromEntries(res.headers.entries()),
-        data,
-      });
-    } catch (error) {
-      setResponse({
-        error: "Failed to fetch",
-        details: error instanceof Error ? error.message : "Unknown error",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Local state
+  const [url, setUrl] = useState<ResourceRequest["url"]>(resource.request.url);
+  const [method, setMethod] = useState<RequestMethod>(resource.request.method);
+  const [headers, setHeaders] = useState<ResourceRequest["headers"]>(resource.request.headers);
+  const [params, setParams] = useState<ResourceRequest["params"]>(resource.request.params);
+  const [body, setBody] = useState<ResourceRequest["body"]>(resource.request.body);
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -81,7 +44,7 @@ export function RequestInterface() {
           placeholder="Enter request URL"
           className="flex-1"
         />
-        <Button onClick={handleSend} disabled={isLoading}>
+        <Button onClick={() => triggerResource(resource.name)} disabled={isLoading}>
           {isLoading ? "Sending..." : "Send"}
         </Button>
       </div>
@@ -102,9 +65,11 @@ export function RequestInterface() {
           <CodeEditor value={body} onChange={setBody} language="json" />
         </TabsContent>
       </Tabs>
-      <div className="mt-6">
-        <ResponseViewer response={response} />
-      </div>
+      {response && (
+        <div className="mt-6">
+          <ResponseViewer response={response} />
+        </div>
+      )}
     </div>
   );
 }

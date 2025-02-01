@@ -2,12 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
+import { Resource } from "../types";
 
-interface ResponseViewerProps {
-  response: any;
-}
-
-export function ResponseViewer({ response }: ResponseViewerProps) {
+export function ResponseViewer({ response }: { response: Resource["response"] }) {
   if (!response) {
     return (
       <Card>
@@ -18,7 +15,7 @@ export function ResponseViewer({ response }: ResponseViewerProps) {
     );
   }
 
-  if (response.error) {
+  if ("error" in response) {
     return (
       <Card className="border-destructive">
         <CardHeader>
