@@ -29,10 +29,12 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { columns as columnsDemo } from "./columns"
 import dataDemo from "./demo-data/tasks.json"
+import { TableColumn } from "../../types"
+import { columnBuilder } from "./build-columns"
 
 // TODO: Remove optional props
 interface DataTableProps<TData, TValue> {
-  columns?: ColumnDef<TData, TValue>[]
+  columns: TableColumn[]
   data?: TData[]
 }
 
@@ -50,7 +52,7 @@ export function Table<TData, TValue>({
 
   const table = useReactTable({
     data: dataDemo,
-    columns: columnsDemo,
+    columns: columnBuilder(columns),
     state: {
       sorting,
       columnVisibility,

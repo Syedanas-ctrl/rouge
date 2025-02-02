@@ -1,7 +1,7 @@
 "use client";
+
 import React from "react";
 import { BuilderTabs } from "../enums";
-import { RequestInterface } from "../api-builder";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { Separator } from "@workspace/ui/components/separator";
 import BlocksList from "./blocks-list";

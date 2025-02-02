@@ -22,7 +22,7 @@ export const useResourceState = create<ResourceState>((set, get) => ({
                 types: [ResourceType.API],
                 description: "",
                 request: {
-                    url: "https://catfact.ninja/fact",
+                    url: "http://localhost:3000/api/dummy-table",
                     method: RequestTypes.GET,
                     headers: {},
                     params: {},
@@ -37,7 +37,6 @@ export const useResourceState = create<ResourceState>((set, get) => ({
     deleteResource: (name) => set((state) => ({ resources: Object.fromEntries(Object.entries(state.resources).filter(([key]) => key !== name)) })),
     triggerResource: async (name) => {
         const resource = get().resources[name];
-        console.log("triggerResource", name, resource);
         if (!resource) return;
         try {
             set((state) => ({ resources: { ...state.resources, [name]: { ...state.resources[name], isLoading: true } as Resource } }))

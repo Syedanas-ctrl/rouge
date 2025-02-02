@@ -22,7 +22,7 @@ export function Canvas() {
   return (
     <div
       ref={canvasRef}
-      className="relative w-screen h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden"
       style={{
         backgroundImage: "radial-gradient(1.5px 1.5px at 50% 50%, var(--primary) 1px, transparent 1px)",
         backgroundSize: "20px 20px",
