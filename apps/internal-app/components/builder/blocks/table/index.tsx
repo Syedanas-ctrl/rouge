@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -28,20 +27,20 @@ import {
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { columns as columnsDemo } from "./columns"
-import dataDemo from "./demo-data/tasks.json"
 import { TableColumn } from "../../types"
 import { columnBuilder } from "./build-columns"
 
 // TODO: Remove optional props
 interface DataTableProps<TData, TValue> {
-  columns: TableColumn[]
+  columns?: TableColumn[]
   data?: TData[]
 }
 
 export function Table<TData, TValue>({
-  columns,
-  data,
+  columns = [],
+  data = [],
 }: DataTableProps<TData, TValue>) {
+  console.log('table', columns, data);
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -51,7 +50,7 @@ export function Table<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
-    data: dataDemo,
+    data: data,
     columns: columnBuilder(columns),
     state: {
       sorting,

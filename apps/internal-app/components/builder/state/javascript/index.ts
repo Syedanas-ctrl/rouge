@@ -1,5 +1,6 @@
 import { create } from "zustand"
-import { Function, FunctionType } from "../types";
+import { Function, FunctionType } from "../../types";
+import { SAMPLE_TABLE_DATA, SAMPLE_TABLE_DATA_NAME } from "./samples";
 
 interface JavascriptState {
   functions: Record<Function["name"], Function>
@@ -11,7 +12,14 @@ interface JavascriptState {
 }
 
 export const useJavascriptState = create<JavascriptState>((set, get) => ({
-  functions: {},
+  functions: {
+    [SAMPLE_TABLE_DATA_NAME]: {
+      name: SAMPLE_TABLE_DATA_NAME,
+      code: `return ${JSON.stringify(SAMPLE_TABLE_DATA)}`,
+      types: [FunctionType.JAVASCRIPT],
+      isLoading: false,
+    },
+  },
   addFunction: (func) => set((state) => ({ functions: { ...state.functions, [func.name]: func } })),
   addEmptyFunction: () => set((state) => ({
     functions:

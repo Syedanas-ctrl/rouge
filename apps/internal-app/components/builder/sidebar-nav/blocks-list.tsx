@@ -13,7 +13,14 @@ const BlocksList = () => {
       {(block: Block) => (
         <Button
           key={block.name}
-          onClick={() => addBlock({ content: block.block, width: 300, height: 10 })}
+          onClick={() =>
+            addBlock({
+              content: block,
+              width: 300,
+              height: 10,
+              isEditing: false,
+            })
+          }
           variant={"outline"}
           size={"sm"}
           className="flex gap-2 items-center justify-between border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground rounded-md h-9 px-4 py-2 whitespace-nowrap">

@@ -20,7 +20,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import { BlockType } from "../enums";
-import { Block, cellType } from "../types";
+import { Block, FunctionType } from "../types";
 import { Table } from "./table";
 import { Button } from "@workspace/ui/components/button";
 import { AlertDialog } from "@workspace/ui/components/alert-dialog";
@@ -39,6 +39,8 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import Text from "./text";
 import { FilePicker } from "./file-picker";
 import { Avatar } from "@workspace/ui/components/avatar";
+import { SAMPLE_TABLE_DATA_NAME } from "../state/javascript/samples";
+import { SAMPLE_TABLE_COLUMNS } from "./table/demo-data/columns";
 
 const Blocks: Block[] = [
   {
@@ -46,36 +48,12 @@ const Blocks: Block[] = [
     types: [BlockType.Featured, BlockType.Display],
     icon: TableIcon,
     description: "A table block",
-    block: <Table columns={[
-      {
-        accessorKey: "id",
-        header: "Task",
-        cell: [{ type: cellType.string, value: "id" }],
-        enableSorting: false,
-        enableHiding: false,
-      },
-      {
-        accessorKey: "title",
-        header: "Title",
-        cell: [{ type: cellType.string, value: "title" }],
-        enableSorting: false,
-        enableHiding: false,
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: [{ type: cellType.badge, value: "status" }],
-        enableSorting: false,
-        enableHiding: false,
-      },
-      {
-        accessorKey: "priority",
-        header: "Priority",
-        cell: [{ type: cellType.badge, value: "priority" }],
-        enableSorting: false,
-        enableHiding: false,
-      },
-    ]} />,
+    block:  <Table />,
+    defaultContentProps: {
+      columns: SAMPLE_TABLE_COLUMNS,
+      source: SAMPLE_TABLE_DATA_NAME,
+      sourceType: FunctionType.JAVASCRIPT,
+    },
   },
   {
     name: "Input",

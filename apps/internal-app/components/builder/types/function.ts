@@ -12,5 +12,5 @@ export type FunctionResult = {
 export interface Function extends BuilderElement<FunctionType> {
     code: string,
     isLoading: boolean,
-    result: FunctionResult
+    result?: FunctionResult
 }

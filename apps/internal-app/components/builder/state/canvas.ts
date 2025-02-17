@@ -3,9 +3,10 @@ import { CanvasBlock } from "../types/block"
 
 interface CanvasState {
   blocks: CanvasBlock[]
-  addBlock: (block: Omit<CanvasBlock, "id" | "x" | "y">) => void
-  updateBlockPosition: (id: string, x: number, y: number) => void
-  updateBlockSize: (id: string, width: number, height: number) => void
+  addBlock: (block: Omit<CanvasBlock, "name" | "x" | "y">) => void
+  updateBlockPosition: (name: string, x: number, y: number) => void
+  updateBlockSize: (name: string, width: number, height: number) => void
+  updateBlockEditing: (name: string, isEditing: boolean) => void
 }
 
 export const useCanvasState = create<CanvasState>((set, get) => ({
@@ -13,16 +14,20 @@ export const useCanvasState = create<CanvasState>((set, get) => ({
   addBlock: (block) => {
     const { blocks } = get()
     const { x, y } = findFreePosition(blocks, block.width, block.height)
-    const newBlock = { ...block, id: Math.random().toString(36).substr(2, 9), x, y }
+    const newBlock = { ...block, contentProps: block.content.defaultContentProps, name: "block" + (blocks.length + 1) + block.content.name, x, y }
     set((state) => ({ blocks: [...state.blocks, newBlock] }))
   },
-  updateBlockPosition: (id, x, y) =>
+  updateBlockPosition: (name, x, y) =>
     set((state) => ({
-      blocks: state.blocks.map((block) => (block.id === id ? { ...block, x, y } : block)),
+      blocks: state.blocks.map((block) => (block.name === name ? { ...block, x, y } : block)),
     })),
-  updateBlockSize: (id, width, height) =>
+  updateBlockSize: (name, width, height) =>
     set((state) => ({
-      blocks: state.blocks.map((block) => (block.id === id ? { ...block, width, height } : block)),
+      blocks: state.blocks.map((block) => (block.name === name ? { ...block, width, height } : block)),
+    })),
+  updateBlockEditing: (name, isEditing) =>
+    set((state) => ({
+      blocks: state.blocks.map((block) => (block.name === name ? { ...block, isEditing } : { ...block, isEditing: !isEditing })),
     })),
 }))
 

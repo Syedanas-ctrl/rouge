@@ -8,8 +8,11 @@ import BlockManager from "@/components/builder/block-manager";
 import { ResizablePanelGroup } from "@workspace/ui/components/resizable";
 import { ResizablePanel } from "@workspace/ui/components/resizable";
 import { ResizableHandle } from "@workspace/ui/components/resizable";
+import { useCanvasState } from "@/components/builder/state";
 
 export default function DashboardPage() {
+  const { blocks } = useCanvasState();
+  const block = blocks.find((block) => block.isEditing);
   return (
     <main className="h-screen flex">
       <ResizablePanelGroup direction="horizontal">
@@ -21,9 +24,11 @@ export default function DashboardPage() {
           <Canvas />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={20}>
-          <BlockManager />
-        </ResizablePanel>
+        {block && (
+          <ResizablePanel defaultSize={20}>
+            <BlockManager />
+          </ResizablePanel>
+        )}
       </ResizablePanelGroup>
       <footer className="fixed bottom-0 flex whitespace-nowrap h-6 w-full bg-white">
         <Separator className="w-full" />
