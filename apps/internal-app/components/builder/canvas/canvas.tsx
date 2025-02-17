@@ -2,15 +2,16 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Rnd } from "react-rnd";
-import { useCanvasState, useJavascriptState } from "../state";
+import { useCanvasState, useFunctionState, useMutableState } from "../state";
 import { ToastAction } from "@workspace/ui/components/toast";
 import { toast } from "@workspace/ui/hooks/use-toast";
 import React from "react";
-import { FunctionType } from "../types";
+import { FunctionType, MutableStateType } from "../types";
 
 export function Canvas() {
   const { blocks, updateBlockPosition, updateBlockSize, updateBlockEditing } = useCanvasState();
-  const { functions } = useJavascriptState();
+  const { functions } = useFunctionState();
+  const { states } = useMutableState();
   const [isDragging, setIsDragging] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -70,8 +71,8 @@ export function Canvas() {
           {React.cloneElement(block.content.block as React.ReactElement, {
             columns: block.contentProps?.columns,
             data:
-              block.contentProps?.sourceType === FunctionType.JAVASCRIPT
-                ? functions?.[block.contentProps.source]?.result?.result || []
+              block.contentProps?.sourceType === MutableStateType.JAVASCRIPT_VARIABLE
+                ? states?.[block.contentProps.source]?.state
                 : [],
           })}
         </Rnd>

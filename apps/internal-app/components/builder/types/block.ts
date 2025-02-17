@@ -4,6 +4,7 @@ import { BuilderElement } from "./general";
 import { Function, FunctionType } from "./function";
 import { Resource, ResourceType } from "./resource";
 import { TableColumn } from "./table";
+import { MutableState, MutableStateType } from "./mutable-state";
 
 export interface Block extends BuilderElement<BlockType> {
     icon: LucideIcon;
@@ -24,7 +25,7 @@ export interface CanvasBlock {
 }
 
 export interface CanvasBlockContentProps {
-    source: Function["name"] | Resource["name"]
-    sourceType: FunctionType | ResourceType
+    source: Function["name"] | Resource["name"] | MutableState["name"]
+    sourceType: FunctionType | ResourceType | MutableStateType
     columns: TableColumn[]
 }

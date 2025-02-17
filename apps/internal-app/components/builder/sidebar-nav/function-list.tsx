@@ -3,14 +3,14 @@ import UIList from "../ui-list";
 import { Button } from "@workspace/ui/components/button";
 import { CodeXml, Plus } from "lucide-react";
 import { Function } from "../types";
-import { useJavascriptState } from "../state";
+import { useFunctionState } from "../state";
 import { CodeEditor } from "../api-builder/code-editor";
 
 const FunctionList = () => {
-  const addEmptyFunction = useJavascriptState((state) => state.addEmptyFunction);
-  const updateFunction = useJavascriptState((state) => state.updateFunction);
-  const triggerFunction = useJavascriptState((state) => state.triggerFunction);
-  const { functions } = useJavascriptState();
+  const addEmptyFunction = useFunctionState((state) => state.addEmptyFunction);
+  const updateFunction = useFunctionState((state) => state.updateFunction);
+  const triggerFunction = useFunctionState((state) => state.triggerFunction);
+  const { functions } = useFunctionState();
   const [selectedFunctions, setSelectedFunctions] = useState<Set<string>>(new Set());
 
   return (

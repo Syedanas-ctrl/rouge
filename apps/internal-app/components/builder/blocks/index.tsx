@@ -39,8 +39,9 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import Text from "./text";
 import { FilePicker } from "./file-picker";
 import { Avatar } from "@workspace/ui/components/avatar";
-import { SAMPLE_TABLE_DATA_NAME } from "../state/javascript/samples";
+import { SAMPLE_TABLE_DATA_NAME } from "../state/mutable-state/samples";
 import { SAMPLE_TABLE_COLUMNS } from "./table/demo-data/columns";
+import { MutableStateType } from "../types";
 
 const Blocks: Block[] = [
   {
@@ -52,7 +53,7 @@ const Blocks: Block[] = [
     defaultContentProps: {
       columns: SAMPLE_TABLE_COLUMNS,
       source: SAMPLE_TABLE_DATA_NAME,
-      sourceType: FunctionType.JAVASCRIPT,
+      sourceType: MutableStateType.JAVASCRIPT_VARIABLE,
     },
   },
   {

@@ -1,3 +1,4 @@
 export * from "./canvas";
-export * from "./javascript";
+export * from "./function";
 export * from "./resource";
+export * from "./mutable-state";

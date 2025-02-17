@@ -2,17 +2,17 @@ import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Separator } from "@workspace/ui/components/separator";
-import { SaveAllIcon, SaveIcon, Trash2Icon } from "lucide-react";
+import { SaveIcon, Trash2Icon } from "lucide-react";
 import React from "react";
 import { CodeEditor } from "../api-builder/code-editor";
-import { useCanvasState, useJavascriptState, useResourceState } from "../state";
+import { useCanvasState, useFunctionState, useResourceState } from "../state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
 import { Badge } from "@workspace/ui/components/badge";
 
 const BlockManager = () => {
   const { blocks } = useCanvasState();
   const { resources } = useResourceState();
-  const { functions } = useJavascriptState();
+  const { functions } = useFunctionState();
   const block = blocks.find((block) => block.isEditing);
 
   return (
