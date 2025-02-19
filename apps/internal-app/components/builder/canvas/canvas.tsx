@@ -7,6 +7,7 @@ import { ToastAction } from "@workspace/ui/components/toast";
 import { toast } from "@workspace/ui/hooks/use-toast";
 import React from "react";
 import { FunctionType, MutableStateType } from "../types";
+import Zoomable from "./zoomable";
 
 export function Canvas() {
   const { blocks, updateBlockPosition, updateBlockSize, updateBlockEditing } = useCanvasState();
@@ -34,13 +35,13 @@ export function Canvas() {
     },
     [blocks]
   );
-  console.log("rendeer", blocks, functions);
+
   return (
     <div
       ref={canvasRef}
       className="relative h-screen overflow-hidden"
       style={{
-        backgroundImage: "radial-gradient(1.5px 1.5px at 50% 50%, var(--primary) 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(1.5px 1.5px at 50% 50%, black 1px, transparent 1px)",
         backgroundSize: "20px 20px",
       }}>
       {blocks.map((block) => (
