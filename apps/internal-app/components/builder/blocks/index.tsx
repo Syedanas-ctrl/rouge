@@ -1,5 +1,4 @@
 import {
-  TableIcon,
   AlignVerticalSpaceAroundIcon,
   RectangleEllipsisIcon,
   PanelRightCloseIcon,
@@ -16,171 +15,208 @@ import {
   TypeIcon,
   FileIcon,
   BadgeIcon,
-  Badge,
   UserIcon,
 } from "lucide-react";
 import { BlockType } from "../enums";
-import { Block, FunctionType } from "../types";
-import { Table } from "./table";
-import { Button } from "@workspace/ui/components/button";
-import { AlertDialog } from "@workspace/ui/components/alert-dialog";
-import { Sheet } from "@workspace/ui/components/sheet";
-import { Select } from "@workspace/ui/components/select";
-import { Drawer } from "@workspace/ui/components/drawer";
-import { Slider } from "@workspace/ui/components/slider";
-import { Tabs } from "@workspace/ui/components/tabs";
-import { RadioGroup } from "@workspace/ui/components/radio-group";
-import { Dialog } from "@workspace/ui/components/dialog";
-import { DatePicker } from "@workspace/ui/components/date-picker";
-import { Switch } from "@workspace/ui/components/switch";
-import { Checkbox } from "@workspace/ui/components/checkbox";
-import { Input } from "@workspace/ui/components/input";
-import { Textarea } from "@workspace/ui/components/textarea";
-import Text from "./text";
-import { FilePicker } from "./file-picker";
-import { Avatar } from "@workspace/ui/components/avatar";
-import { SAMPLE_TABLE_DATA_NAME } from "../state/mutable-state/samples";
-import { SAMPLE_TABLE_COLUMNS } from "./table/demo-data/columns";
-import { MutableStateType } from "../types";
+import { Block } from "../types";
+import { BlockSchemaType, BlockName } from "./schemas";
 
-const Blocks: Block[] = [
-  {
-    name: "Table",
-    types: [BlockType.Featured, BlockType.Display],
-    icon: TableIcon,
-    description: "A table block",
-    block:  <Table />,
-    defaultContentProps: {
-      columns: SAMPLE_TABLE_COLUMNS,
-      source: SAMPLE_TABLE_DATA_NAME,
-      sourceType: MutableStateType.JAVASCRIPT_VARIABLE,
-    },
-  },
+const Blocks: Block<BlockSchemaType>[] = [
   {
     name: "Input",
     types: [BlockType.Input],
     icon: TextCursorInputIcon,
     description: "An input block",
-    block: <Input />,
+    component: BlockName.Input,
+    defaultProps: {
+      placeholder: "Enter text",
+      label: "Input",
+    },
   },
   {
     name: "Button",
     types: [BlockType.Button],
     icon: AlignVerticalSpaceAroundIcon,
     description: "A button block",
-    block: <Button />,
+    component: BlockName.Button,
+    defaultProps: {
+      label: "Button",
+      variant: "default",
+    },
   },
   {
     name: "Confirm Dialog",
     types: [BlockType.Button],
     icon: RectangleEllipsisIcon,
     description: "Confirm action button",
-    block: <AlertDialog />,
+    component: BlockName.AlertDialog,
+    defaultProps: {
+      label: "Complete action",
+    },
   },
   {
     name: "Sheet",
     types: [BlockType.Layout],
     icon: PanelRightCloseIcon,
     description: "Side sheet modal",
-    block: <Sheet />,
+    component: BlockName.Sheet,
+    defaultProps: {
+      label: "Open Sheet",
+    },
   },
   {
     name: "Drawer",
     types: [BlockType.Layout],
     icon: PanelBottomCloseIcon,
     description: "Bottom drawer modal",
-    block: <Drawer />,
+    component: BlockName.Drawer,
+    defaultProps: {
+      label: "Open Drawer",
+    },
   },
   {
     name: "Select",
     types: [BlockType.Select],
     icon: ListOrderedIcon,
     description: "Select options",
-    block: <Select />,
+    component: BlockName.Select,
+    defaultProps: {
+      label: "Select",
+      options: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
+    },
   },
   {
     name: "Slider",
     types: [BlockType.Input],
     icon: SlidersHorizontalIcon,
     description: "Slider",
-    block: <Slider />,
+    component: BlockName.Slider,
+    defaultProps: {
+      min: 0,
+      max: 100
+    },
   },
   {
     name: "Tabs",
     types: [BlockType.Layout],
     icon: BetweenVerticalEndIcon,
     description: "Tabs",
-    block: <Tabs />,
+    component: BlockName.Tabs,
+    defaultProps: {
+      label: "Tabs",
+    },
   },
   {
     name: "Radio",
     types: [BlockType.Select],
     icon: CircleStopIcon,
     description: "Radio group",
-    block: <RadioGroup />,
+    component: BlockName.Radio,
+    defaultProps: {
+      label: "Radio",
+      options: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
+    },
   },
   {
     name: "Modal",
     types: [BlockType.Layout],
     icon: AppWindowIcon,
     description: "Modal",
-    block: <Dialog />,
+    component: BlockName.Dialog,
+    defaultProps: {
+      label: "Open Modal",
+    },
   },
   {
     name: "Date Picker",
     types: [BlockType.Input],
     icon: CalendarIcon,
     description: "Date picker",
-    block: <DatePicker />,
+    component: BlockName.DatePicker,
+    defaultProps: {
+      label: "Date Picker",
+    },
   },
   {
     name: "Switch",
     types: [BlockType.Input],
     icon: ToggleLeftIcon,
     description: "Switch",
-    block: <Switch />,
+    component: BlockName.Switch,
+    defaultProps: {
+      label: "Switch",
+    },
   },
   {
     name: "Checkbox",
     types: [BlockType.Input],
     icon: SquareCheckIcon,
     description: "Checkbox",
-    block: <Checkbox />,
+    component: BlockName.Checkbox,
+    defaultProps: {
+      label: "Checkbox",
+    },
   },
   {
     name: "Text",
     types: [BlockType.Content, BlockType.Featured],
     icon: TypeIcon,
     description: "Text",
-    block: <Text />,
+    component: BlockName.Text,
+    defaultProps: {
+      size: "md",
+    },
   },
   {
     name: "Rich Text",
     types: [BlockType.Content],
     icon: FileIcon,
     description: "Rich text",
-    block: <Textarea />,
+    component: BlockName.Textarea,
+    defaultProps: {
+      label: "Rich Text",
+      size: "md",
+    },
   },
   {
     name: "File Picker",
     types: [BlockType.Input],
     icon: FileIcon,
     description: "File picker",
-    block: <FilePicker />,
+    component: BlockName.FilePicker,
+    defaultProps: {
+      label: "Upload file",
+      maxSize: 5,
+      accept: ["application/*"],
+    },
   },
   {
     name: "Badge",
     types: [BlockType.Content],
     icon: BadgeIcon,
     description: "Badge",
-    block: <Badge />,
+    component: BlockName.Badge,
+    defaultProps: {
+      label: "Badge",
+    },
   },
   {
     name: "Avatar",
     types: [BlockType.Content],
     icon: UserIcon,
     description: "Avatar",
-    block: <Avatar />,
+    component: BlockName.Avatar,
+    defaultProps: {
+      label: "Avatar",
+    },
   },
 ];
 

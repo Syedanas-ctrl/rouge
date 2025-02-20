@@ -12,9 +12,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@workspace/ui/components/popover"
+import { schema } from "./schema"
+import { z } from "zod"
 
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
+export function DatePicker({ default: defaultDate, action }: z.infer<typeof schema>) {
+  const [date, setDate] = React.useState<Date | undefined>(defaultDate);
 
   return (
     <Popover>
