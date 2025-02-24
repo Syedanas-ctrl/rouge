@@ -15,14 +15,14 @@ interface CanvasState {
 
 export const useCanvasState = create<CanvasState>((set, get) => ({
   blocks: [],
-  addBlock: (block) => {
+  addBlock: async (block) => {
     const { blocks } = get()
     const { x, y } = findFreePosition(blocks, block.width, block.height)
     const { addFunction } = useFunctionState.getState()
     const defaultPropsFunction = Blocks.find((b) => b.name === block.content)?.defaultPropsFunction
     const defaultPropsFunctionName = "function" + block.content + (blocks.length + 1);
     if (defaultPropsFunction) {
-      addFunction({
+      await addFunction({
         name: defaultPropsFunctionName,
         code: defaultPropsFunction,
         types: [FunctionType.JAVASCRIPT],
@@ -30,6 +30,7 @@ export const useCanvasState = create<CanvasState>((set, get) => ({
       })
     } else {
       console.error("No default props function found for block", block.content)
+      return;
     }
     const newBlock: CanvasBlock = { ...block, name: "block" + (blocks.length + 1) + block.content, x, y, contentProps: {
       source: defaultPropsFunctionName,

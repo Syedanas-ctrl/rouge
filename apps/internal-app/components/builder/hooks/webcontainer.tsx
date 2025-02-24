@@ -18,43 +18,57 @@ const useWebContainer = () => {
     if (!webContainer) return;
     const functionContent = Object.entries(functions)
       .map(([name, body]) => `function ${name}() { ${body} }`)
-      .join('\n');
+      .join('\n') + '\nmodule.exports = {' + Object.keys(functions).join(', ') + '};';
     await webContainer.fs.writeFile('functions.js', functionContent);
-    // const runProcess = await webContainer.spawn('node', ['functions.js']);
-    // const runWriter = runProcess.input.getWriter();
-    // const output: string[] = [];
-    // const reader = runProcess.output.getReader();
-
-    // while (true) {
-    //   const { done, value } = await reader.read();
-    //   if (done) break;
-    //   output.push(value);
-    // }
-
-    // await runProcess.exit;
-    // runWriter.releaseLock();
-    // return output;
   };
 
-  const runFunctions = async (functionName: string) => {
-    if (!webContainer) return;
-    const runProcess = await webContainer.spawn('node', ['functions.js']);
-    const runWriter = runProcess.input.getWriter();
-    const output: string[] = [];
-    const reader = runProcess.output.getReader();
+  const invokeFunction = async (name: string, args: any[] = []) => {
+    if (!webContainer) throw new Error("WebContainer not initialized");
+    
+    // Generate temporary runner script
+    const runnerCode = `
+      const { ${name} } = require('./functions.js');
+      const args = JSON.parse(process.argv[2]);
+      (async () => {
+        try {
+          const result = await ${name}(...args);
+          console.log(JSON.stringify({ 
+            success: true, 
+            data: result 
+          }));
+        } catch (error) {
+          console.log(JSON.stringify({ 
+            success: false, 
+            error: error.message 
+          }));
+        }
+      })();
+    `;
+    await webContainer.fs.writeFile('runner.js', runnerCode);
+    
+    // Execute the runner script
+    const process = await webContainer.spawn('node', [
+      'runner.js',
+      JSON.stringify(args)
+    ]);
+    const writer = process.input.getWriter();
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      output.push(value);
+    let output;
+    process.output.pipeTo(new WritableStream({
+      write(chunk) {
+        output = JSON.parse(chunk);
+      }
+    }));
+
+    const exitCode = await process.exit;
+    writer.releaseLock();
+    if (exitCode !== 0) {
+      throw new Error(`Process exited with code ${exitCode}`);
     }
-
-    await runProcess.exit;
-    runWriter.releaseLock();
     return output;
   };
 
-  return { webContainer, isLoading, writeFunctions, runFunctions };
+  return { webContainer, isLoading, writeFunctions, invokeFunction };
 };
 
 export default useWebContainer;

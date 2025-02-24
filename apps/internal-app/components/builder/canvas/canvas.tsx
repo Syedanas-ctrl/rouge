@@ -7,7 +7,6 @@ import { toast } from "@workspace/ui/hooks/use-toast";
 import React from "react";
 import { BlockMap } from "../blocks/block-map";
 import { BlockName } from "../blocks/schemas";
-import Blocks from "../blocks";
 
 export function Canvas() {
   const { blocks, updateBlockPosition, updateBlockSize, updateBlockEditing } = useCanvasState();
@@ -44,6 +43,7 @@ export function Canvas() {
       }}>
       {blocks.map((block) => {
         const Component = BlockMap[block.content as BlockName];
+        const props = functions[block.contentProps?.source!]?.result;
         return (
           <Rnd
             key={block.name}
@@ -69,19 +69,10 @@ export function Canvas() {
             minWidth={100}
             minHeight={50}
             className={`bg-transparent border ${isDragging ? "border-blue-500" : block.isEditing ? "border-orange-500" : "border-transparent"} cursor-move overflow-hidden`}>
-            {<Component {...block.contentProps as any} />}
+            {<Component {...props as any} />}
           </Rnd>
         );
       })}
     </div>
   );
 }
-
-// {
-//   columns: block.contentProps?.columns,
-//   data:
-//     block.contentProps?.sourceType === MutableStateType.JAVASCRIPT_VARIABLE
-//       ? states?.[block.contentProps.source]?.state
-//       : [],
-// })}
-// {BlockMap[BlockName.AlertDialog] as any}

@@ -14,7 +14,7 @@ interface FunctionState {
   // webcontainer functions
   writeContainerFunction: ((functions: Record<Function["name"], Function["code"]>) => Promise<string>) | null;
   setWriteContainerFunction: (writeContainerFunction: any) => void;
-  runContainerFunction: ((name: Function["name"]) => Promise<string>) | null;
+  runContainerFunction: ((name: Function["name"]) => Promise<{ success: boolean, data: any }>) | null;
   setRunContainerFunction: (runContainerFunction: any) => void;
 }
 
@@ -23,6 +23,8 @@ export const useFunctionState = create<FunctionState>((set, get) => ({
   addFunction: async (func) => {
     set((state) => ({ functions: { ...state.functions, [func.name]: func } }))
     await get().writeContainerFunction?.(Object.fromEntries(Object.values(get().functions).map((func) => ([func.name, func.code]))));
+    const output = await get().runContainerFunction?.(func.name);
+    set((state) => ({ functions: { ...state.functions, [func.name]: { ...func, result: output?.data, isLoading: false } } }));
   },
   addEmptyFunction: async () => {
     const newName = `Function ${Object.keys(get().functions).length + 1}`;
@@ -42,6 +44,8 @@ export const useFunctionState = create<FunctionState>((set, get) => ({
     const newFunction = get().functions[newName];
     if (!newFunction) return;
     await get().writeContainerFunction?.(Object.fromEntries(Object.values(get().functions).map((func) => ([func.name, func.code]))));
+    const output = await get().runContainerFunction?.(newName);
+    set((state) => ({ functions: { ...state.functions, [newName]: { ...newFunction, result: output?.data, isLoading: false } } }));
   },
   updateFunction: async (name, func) => {
     set((state) => ({ functions: { ...state.functions, [name]: func } }))
@@ -69,16 +73,16 @@ export const useFunctionState = create<FunctionState>((set, get) => ({
 }))
 
 export const useInjectContainerToFunctions = () => {
-  const { writeFunctions, runFunctions, isLoading } = useWebContainer();
+  const { writeFunctions, invokeFunction, isLoading } = useWebContainer();
   const setWriteContainerFunction = useFunctionState((state) => state.setWriteContainerFunction);
   const setRunContainerFunction = useFunctionState((state) => state.setRunContainerFunction);
 
   useEffect(() => {
     if (!isLoading) {
       setWriteContainerFunction(writeFunctions);
-      setRunContainerFunction(runFunctions);
+      setRunContainerFunction(invokeFunction);
     }
-  }, [writeFunctions, runFunctions, isLoading, setWriteContainerFunction, setRunContainerFunction]);
+  }, [writeFunctions, invokeFunction, isLoading, setWriteContainerFunction, setRunContainerFunction]);
 
   return {
     isLoading,

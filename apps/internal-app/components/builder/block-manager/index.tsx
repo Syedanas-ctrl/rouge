@@ -6,14 +6,15 @@ import { SaveIcon, Trash2Icon } from "lucide-react";
 import React from "react";
 import { useCanvasState, useFunctionState, useResourceState } from "../state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
+import MonacoEditor from "@monaco-editor/react";
 
 const BlockManager = () => {
   const { blocks, updateBlockProps } = useCanvasState();
   const { resources } = useResourceState();
   const { functions } = useFunctionState();
   const block = blocks.find((block) => block.isEditing);
-
-  if (!block) return;
+  const blockFunction = functions[block?.contentProps?.source!];
+  if (!block || !blockFunction) return;
 
   return (
     <section className="ml-auto overflow-scroll h-full p-4">
@@ -46,12 +47,11 @@ const BlockManager = () => {
             ))}
           </SelectContent>
         </Select>
-        {/* <MonacoEditor
-          className="h-96"
-          value={block.contentProps.source}
-          onChange={(value) => setPropsText(value || "")}
-          language="javascript"
-        /> */}
+        <MonacoEditor
+            className="h-96"
+            value={blockFunction.code}
+            language="javascript"
+          />
       </div>
     </section>
   );
