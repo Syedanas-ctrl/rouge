@@ -15,7 +15,7 @@ import {
 import { schema } from "./schema"
 import { z } from "zod"
 
-export function DatePicker({ default: defaultDate, action }: z.infer<typeof schema>) {
+export function DatePicker({ default: defaultDate, action, label }: z.infer<typeof schema>) {
   const [date, setDate] = React.useState<Date | undefined>(defaultDate);
 
   return (
@@ -29,7 +29,7 @@ export function DatePicker({ default: defaultDate, action }: z.infer<typeof sche
           )}
         >
           <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? format(date, "PPP") : <span>{label}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

@@ -40,7 +40,6 @@ export function Table<TData, TValue>({
   columns = [],
   data = [],
 }: DataTableProps<TData, TValue>) {
-  console.log('table', columns, data);
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})

@@ -3,6 +3,6 @@ import { z } from "zod";
 export const schema = z.object({
   label: z.string(),
   action: z.function().args().returns(z.void()),
-  disabled: z.boolean(),
+  disabled: z.boolean().optional(),
   variant: z.enum(["default", "destructive", "outline", "ghost", "link", "secondary"]),
 }).strict();

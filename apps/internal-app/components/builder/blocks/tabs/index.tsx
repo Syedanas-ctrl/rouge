@@ -2,7 +2,7 @@ import { Tabs as TabsComponent, TabsContent, TabsList, TabsTrigger } from "@work
 import { schema } from "./schema";
 import { z } from "zod";
 
-export function Tabs({ options }: z.infer<typeof schema>) {
+export function Tabs({ options = [] }: z.infer<typeof schema>) {
   return (
     <TabsComponent defaultValue="account" className="w-[400px]">
       <TabsList className="grid w-full grid-cols-2">

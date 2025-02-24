@@ -12,7 +12,7 @@ import {
 import { schema } from "./schema"
 import { z } from "zod"
 
-export function Select({ label, default: defaultValue, options }: z.infer<typeof schema>) {
+export function Select({ label, default: defaultValue, options = [] }: z.infer<typeof schema>) {
   return (
     <SelectComponent>
       <SelectTrigger className="w-[180px]">

@@ -4,16 +4,16 @@ import { Label } from "@workspace/ui/components/label";
 import { Separator } from "@workspace/ui/components/separator";
 import { SaveIcon, Trash2Icon } from "lucide-react";
 import React from "react";
-import { CodeEditor } from "../api-builder/code-editor";
 import { useCanvasState, useFunctionState, useResourceState } from "../state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
-import { Badge } from "@workspace/ui/components/badge";
 
 const BlockManager = () => {
-  const { blocks } = useCanvasState();
+  const { blocks, updateBlockProps } = useCanvasState();
   const { resources } = useResourceState();
   const { functions } = useFunctionState();
   const block = blocks.find((block) => block.isEditing);
+
+  if (!block) return;
 
   return (
     <section className="ml-auto overflow-scroll h-full p-4">
@@ -34,7 +34,7 @@ const BlockManager = () => {
       <Separator className="my-4" />
       <div className="flex flex-col gap-2">
         <Label>Source</Label>
-        <Select>
+        <Select value={block.contentProps?.source}>
           <SelectTrigger>
             <SelectValue placeholder="Select a source" />
           </SelectTrigger>
@@ -46,11 +46,12 @@ const BlockManager = () => {
             ))}
           </SelectContent>
         </Select>
-        <Label>Columns</Label>
-        {block?.contentProps?.columns.map((column) => <Badge>{column.header}</Badge>)}
-        <div className="rounded-md overflow-scroll">
-          <CodeEditor value={""} onChange={() => {}} language="javascript" />
-        </div>
+        {/* <MonacoEditor
+          className="h-96"
+          value={block.contentProps.source}
+          onChange={(value) => setPropsText(value || "")}
+          language="javascript"
+        /> */}
       </div>
     </section>
   );

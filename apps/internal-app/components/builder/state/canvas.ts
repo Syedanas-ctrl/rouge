@@ -1,5 +1,8 @@
 import { create } from "zustand"
 import { CanvasBlock } from "../types/block"
+import { useFunctionState } from "."
+import Blocks from "../blocks"
+import { FunctionType } from "../types"
 
 interface CanvasState {
   blocks: CanvasBlock[]
@@ -7,6 +10,7 @@ interface CanvasState {
   updateBlockPosition: (name: string, x: number, y: number) => void
   updateBlockSize: (name: string, width: number, height: number) => void
   updateBlockEditing: (name: string, isEditing: boolean) => void
+  updateBlockProps: (name: string, props: CanvasBlock["contentProps"]) => void
 }
 
 export const useCanvasState = create<CanvasState>((set, get) => ({
@@ -14,7 +18,25 @@ export const useCanvasState = create<CanvasState>((set, get) => ({
   addBlock: (block) => {
     const { blocks } = get()
     const { x, y } = findFreePosition(blocks, block.width, block.height)
-    const newBlock = { ...block, contentProps: block.content.defaultContentProps, name: "block" + (blocks.length + 1) + block.content.name, x, y }
+    const { addFunction } = useFunctionState.getState()
+    const defaultPropsFunction = Blocks.find((b) => b.name === block.content)?.defaultPropsFunction
+    const defaultPropsFunctionName = "function" + block.content + (blocks.length + 1);
+    if (defaultPropsFunction) {
+      addFunction({
+        name: defaultPropsFunctionName,
+        code: defaultPropsFunction,
+        types: [FunctionType.JAVASCRIPT],
+        isLoading: false,
+      })
+    } else {
+      console.error("No default props function found for block", block.content)
+    }
+    const newBlock: CanvasBlock = { ...block, name: "block" + (blocks.length + 1) + block.content, x, y, contentProps: {
+      source: defaultPropsFunctionName,
+      sourceType: FunctionType.JAVASCRIPT,
+      minHeight: block.height,
+      minWidth: block.width,
+    } }
     set((state) => ({ blocks: [...state.blocks, newBlock] }))
   },
   updateBlockPosition: (name, x, y) =>
@@ -29,6 +51,11 @@ export const useCanvasState = create<CanvasState>((set, get) => ({
     set((state) => ({
       blocks: state.blocks.map((block) => (block.name === name ? { ...block, isEditing } : { ...block, isEditing: !isEditing })),
     })),
+  updateBlockProps: (name, props) => {
+    set((state) => ({
+      blocks: state.blocks.map((block) => (block.name === name ? { ...block, contentProps: props } : block)),
+    }));
+  },
 }))
 
 const CANVAS_PADDING = 20

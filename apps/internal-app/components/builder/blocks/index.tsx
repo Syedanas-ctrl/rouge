@@ -32,6 +32,10 @@ const Blocks: Block<BlockSchemaType>[] = [
       placeholder: "Enter text",
       label: "Input",
     },
+    defaultPropsFunction:  `return {
+      label: "Input",
+      placeholder: "Enter text",
+    }`,
   },
   {
     name: "Button",
@@ -43,6 +47,10 @@ const Blocks: Block<BlockSchemaType>[] = [
       label: "Button",
       variant: "default",
     },
+    defaultPropsFunction: `return {
+      label: "Button",
+      variant: "default",
+    }`,
   },
   {
     name: "Confirm Dialog",
@@ -53,6 +61,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Complete action",
     },
+    defaultPropsFunction: `return {
+      label: "Complete action",
+    }`,
   },
   {
     name: "Sheet",
@@ -63,6 +74,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Open Sheet",
     },
+    defaultPropsFunction: `return {
+      label: "Open Sheet",
+    }`,
   },
   {
     name: "Drawer",
@@ -73,6 +87,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Open Drawer",
     },
+    defaultPropsFunction: `return {
+      label: "Open Drawer",
+    }`,
   },
   {
     name: "Select",
@@ -88,6 +105,14 @@ const Blocks: Block<BlockSchemaType>[] = [
         { label: "Option 3", value: "option3" },
       ],
     },
+    defaultPropsFunction: `return {
+      label: "Select",
+      options: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
+    }`,
   },
   {
     name: "Slider",
@@ -99,6 +124,10 @@ const Blocks: Block<BlockSchemaType>[] = [
       min: 0,
       max: 100
     },
+    defaultPropsFunction: `return {
+      min: 0,
+      max: 100
+    }`,
   },
   {
     name: "Tabs",
@@ -109,6 +138,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Tabs",
     },
+    defaultPropsFunction: `return {
+      label: "Tabs",
+    }`,
   },
   {
     name: "Radio",
@@ -124,6 +156,14 @@ const Blocks: Block<BlockSchemaType>[] = [
         { label: "Option 3", value: "option3" },
       ],
     },
+    defaultPropsFunction: `return {
+      label: "Radio",
+      options: [
+        { label: "Option 1", value: "option1" },
+        { label: "Option 2", value: "option2" },
+        { label: "Option 3", value: "option3" },
+      ],
+    }`,
   },
   {
     name: "Modal",
@@ -134,6 +174,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Open Modal",
     },
+    defaultPropsFunction: `return {
+      label: "Open Modal",
+    }`,
   },
   {
     name: "Date Picker",
@@ -144,6 +187,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Date Picker",
     },
+    defaultPropsFunction: `return {
+      label: "Date Picker",
+    }`,
   },
   {
     name: "Switch",
@@ -154,6 +200,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Switch",
     },
+    defaultPropsFunction: `return {
+      label: "Switch",
+    }`,
   },
   {
     name: "Checkbox",
@@ -164,6 +213,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Checkbox",
     },
+    defaultPropsFunction: `return {
+      label: "Checkbox",
+    }`,
   },
   {
     name: "Text",
@@ -174,6 +226,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       size: "md",
     },
+    defaultPropsFunction: `return {
+      size: "md",
+    }`,
   },
   {
     name: "Rich Text",
@@ -185,6 +240,10 @@ const Blocks: Block<BlockSchemaType>[] = [
       label: "Rich Text",
       size: "md",
     },
+    defaultPropsFunction: `return {
+      label: "Rich Text",
+      size: "md",
+    }`,
   },
   {
     name: "File Picker",
@@ -197,6 +256,11 @@ const Blocks: Block<BlockSchemaType>[] = [
       maxSize: 5,
       accept: ["application/*"],
     },
+    defaultPropsFunction: `return {
+      label: "Upload file",
+      maxSize: 5,
+      accept: ["application/*"],
+    }`,
   },
   {
     name: "Badge",
@@ -207,6 +271,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Badge",
     },
+    defaultPropsFunction: `return {
+      label: "Badge",
+    }`,
   },
   {
     name: "Avatar",
@@ -217,6 +284,9 @@ const Blocks: Block<BlockSchemaType>[] = [
     defaultProps: {
       label: "Avatar",
     },
+    defaultPropsFunction: `return {
+      label: "Avatar",
+    }`,
   },
 ];
 

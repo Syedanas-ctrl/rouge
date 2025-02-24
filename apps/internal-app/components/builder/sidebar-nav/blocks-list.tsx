@@ -5,17 +5,18 @@ import { Block } from "../types";
 import { BlockType } from "../enums";
 import { useCanvasState } from "../state";
 import blocks from "../blocks";
+import { BlockSchemaType } from "../blocks/schemas";
 
 const BlocksList = () => {
   const addBlock = useCanvasState((state) => state.addBlock);
   return (
     <UIList display="grid" list={blocks} groups={Object.values(BlockType)}>
-      {(block: Block) => (
+      {(block: Block<BlockSchemaType>) => (
         <Button
           key={block.name}
           onClick={() =>
             addBlock({
-              content: block,
+              content: block.component,
               width: 300,
               height: 10,
               isEditing: false,

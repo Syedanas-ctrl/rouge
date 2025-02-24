@@ -3,7 +3,7 @@ import { RadioGroup as RadioGroupComponent, RadioGroupItem } from "@workspace/ui
 import { schema } from "./schema"
 import { z } from "zod"
 
-export function RadioGroup({ label, default: defaultValue, options }: z.infer<typeof schema>) {
+export function RadioGroup({ label, default: defaultValue, options = [] }: z.infer<typeof schema>) {
   return (
     <div className="grid w-full max-w-sm items-center gap-1.5">
       <Label htmlFor="radio-group">{label}</Label>
