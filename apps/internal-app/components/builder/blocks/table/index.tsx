@@ -29,8 +29,9 @@ import { DataTableToolbar } from "./data-table-toolbar"
 import { columns as columnsDemo } from "./columns"
 import { TableColumn } from "../../types"
 import { columnBuilder } from "./build-columns"
+import { schema } from "./schema"
+import { z } from "zod"
 
-// TODO: Remove optional props
 interface DataTableProps<TData, TValue> {
   columns?: TableColumn[]
   data?: TData[]
@@ -39,7 +40,7 @@ interface DataTableProps<TData, TValue> {
 export function Table<TData, TValue>({
   columns = [],
   data = [],
-}: DataTableProps<TData, TValue>) {
+}: z.infer<typeof schema>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})

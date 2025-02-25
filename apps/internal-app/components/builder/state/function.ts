@@ -21,7 +21,7 @@ interface FunctionState {
 export const useFunctionState = create<FunctionState>((set, get) => ({
   functions: {},
   addFunction: async (func) => {
-    set((state) => ({ functions: { ...state.functions, [func.name]: func } }))
+    set((state) => ({ functions: { ...state.functions, [func.name]: { ...func, isLoading: true } } }))
     await get().writeContainerFunction?.(Object.fromEntries(Object.values(get().functions).map((func) => ([func.name, func.code]))));
     const output = await get().runContainerFunction?.(func.name);
     set((state) => ({ functions: { ...state.functions, [func.name]: { ...func, result: output?.data, isLoading: false } } }));
@@ -32,7 +32,7 @@ export const useFunctionState = create<FunctionState>((set, get) => ({
       name: newName,
       code: "",
       types: [FunctionType.JAVASCRIPT],
-      isLoading: false,
+      isLoading: true,
     };
     set((state) => ({
       functions:
@@ -48,21 +48,21 @@ export const useFunctionState = create<FunctionState>((set, get) => ({
     set((state) => ({ functions: { ...state.functions, [newName]: { ...newFunction, result: output?.data, isLoading: false } } }));
   },
   updateFunction: async (name, func) => {
-    set((state) => ({ functions: { ...state.functions, [name]: func } }))
+    set((state) => ({ functions: { ...state.functions, [name]: { ...func, isLoading: true } } }))
     await get().writeContainerFunction?.(Object.fromEntries(Object.values(get().functions).map((func) => ([func.name, func.code]))));
+    const output = await get().runContainerFunction?.(name);
+    set((state) => ({ functions: { ...state.functions, [name]: { ...func, result: output?.data, isLoading: false } } }));
   },
   deleteFunction: async (name) => {
     set((state) => ({ functions: Object.fromEntries(Object.entries(state.functions).filter(([key]) => key !== name)) }))
     await get().writeContainerFunction?.(Object.fromEntries(Object.values(get().functions).map((func) => ([func.name, func.code]))));
   },
-  triggerFunction: (name) => {
+  triggerFunction: async (name) => {
     const func = get().functions[name];
     if (!func) return;
     set((state) => ({ functions: { ...state.functions, [name]: { ...func, isLoading: true } } }));
-    // TODO: Run function using webcontainers
-    const result = eval(func.code);
-    set((state) => ({ functions: { ...state.functions, [name]: { ...func, result, isLoading: false } } }));
-    get().runContainerFunction?.(name);
+    const output = await get().runContainerFunction?.(name);
+    set((state) => ({ functions: { ...state.functions, [name]: { ...func, result: output?.data, isLoading: false } } }));
   },
 
   // webcontainer functions

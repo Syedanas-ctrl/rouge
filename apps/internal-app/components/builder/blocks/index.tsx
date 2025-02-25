@@ -16,12 +16,30 @@ import {
   FileIcon,
   BadgeIcon,
   UserIcon,
+  TableIcon,
 } from "lucide-react";
 import { BlockType } from "../enums";
 import { Block } from "../types";
 import { BlockSchemaType, BlockName } from "./schemas";
+import { SAMPLE_TABLE_COLUMNS } from "./table/demo-data/columns";
+import SAMPLE_TABLE_DATA from "./table/demo-data/tasks.json";
 
 const Blocks: Block<BlockSchemaType>[] = [
+  {
+    name: "Table",
+    types: [BlockType.Layout, BlockType.Featured],
+    icon: TableIcon,
+    description: "A table block",
+    component: BlockName.Table,
+    defaultProps: {
+      columns: SAMPLE_TABLE_COLUMNS,
+      data: SAMPLE_TABLE_DATA,
+    },
+    defaultPropsFunction: `return {
+      columns: ${JSON.stringify(SAMPLE_TABLE_COLUMNS)},
+      data: ${JSON.stringify(SAMPLE_TABLE_DATA)},
+    }`,
+  },
   {
     name: "Input",
     types: [BlockType.Input],
@@ -30,7 +48,7 @@ const Blocks: Block<BlockSchemaType>[] = [
     component: BlockName.Input,
     defaultProps: {
       placeholder: "Enter text",
-      label: "Input",
+      label: "Input"
     },
     defaultPropsFunction:  `return {
       label: "Input",

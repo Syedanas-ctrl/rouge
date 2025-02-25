@@ -8,12 +8,16 @@ import BlockManager from "@/components/builder/block-manager";
 import { ResizablePanelGroup } from "@workspace/ui/components/resizable";
 import { ResizablePanel } from "@workspace/ui/components/resizable";
 import { ResizableHandle } from "@workspace/ui/components/resizable";
-import { useCanvasState } from "@/components/builder/state";
+import { useCanvasState, useInjectContainerToFunctions } from "@/components/builder/state";
 
 export default function DashboardPage() {
   const { blocks } = useCanvasState();
+  const { isLoading: isInjectingContainer } = useInjectContainerToFunctions();
   const block = blocks.find((block) => block.isEditing);
-  return (
+
+  return isInjectingContainer ? (
+    <div>Injecting container...</div>
+  ) : (
     <main className="h-screen flex">
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={20}>

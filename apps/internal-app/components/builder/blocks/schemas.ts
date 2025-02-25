@@ -17,6 +17,7 @@ import { schema as TextSchema } from "./text/schema";
 import { schema as TextareaSchema } from "./textarea/schema";
 import { schema as BadgeSchema } from "./badge/schema";
 import { schema as TabsSchema } from "./tabs/schema";
+import { schema as TableSchema } from "./table/schema";
 
 export enum BlockName {
     AlertDialog = "AlertDialog",
@@ -58,7 +59,7 @@ export const BlockSchemas = {
     [BlockName.Textarea]: TextareaSchema,
     [BlockName.AlertDialog]: AlertDialogSchema,
     [BlockName.Avatar]: AvatarSchema,
-    [BlockName.Table]: AvatarSchema, //TODO: add table schema
+    [BlockName.Table]: TableSchema,
     [BlockName.Tabs]: TabsSchema,
 } satisfies Record<BlockName, ZodSchema>;
 

@@ -1,4 +1,3 @@
-
 export interface TableColumn {
     accessorKey: string;
     header: string;
