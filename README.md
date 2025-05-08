@@ -1,31 +1,14 @@
-# shadcn/ui monorepo template
+# Rouge
 
-This template is for creating a monorepo with shadcn/ui.
+Rouge is a low-code platform that enables you to rapidly build custom internal tools, dashboards, and CRUD applications without extensive coding.
 
-## Usage
+## Features
 
-```bash
-pnpm dlx shadcn@latest init
-```
+- **Visual UI Builder**: Drag-and-drop interface components to create responsive UIs
+- **REST API**: Connect to REST APIs, databases, and third-party services
+- **Custom JavaScript Functions**: Write custom JS logic to handle complex business requirements
 
-## Adding components
+# Demo
+![Alt text](demo/demo.png "Optional Title")
 
-To add components to your app, run the following command at the root of your `internal-app` app:
-
-```bash
-pnpm dlx shadcn@latest add button -c apps/internal-app
-```
-
-This will place the ui components in the `packages/ui/src/components` directory.
-
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/ui/button"
-```
+Rouge is licensed under the [MIT License](LICENSE).
